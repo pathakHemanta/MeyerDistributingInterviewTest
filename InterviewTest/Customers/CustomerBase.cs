@@ -20,7 +20,18 @@ namespace InterviewTest.Customers
         
         public void CreateOrder(IOrder order)
         {
+            // Bug Fix 2: Orders from a previous customers existed in the OrderRepository
+            // Checks the repsository for every customer and clears it before creating any order
+            if (_orderRepository.Get().ToArray().Length != 0)
+            {
+                foreach(var item in _orderRepository.Get())
+                {
+                    _orderRepository.Remove(item);
+                }
+            }
+
             _orderRepository.Add(order);
+            
         }
 
         public List<IOrder> GetOrders()
@@ -46,6 +57,7 @@ namespace InterviewTest.Customers
             {
                 foreach(var order in orders.Products)
                 {
+                    //Console.WriteLine($"{order.Product.GetProductNumber()} : {order.Product.GetSellingPrice()}");
                    totalSales += order.Product.GetSellingPrice();
                 }
             }

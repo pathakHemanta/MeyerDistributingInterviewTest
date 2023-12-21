@@ -59,7 +59,7 @@ namespace InterviewTest
             IReturn rga = new Return("TruckAccessoriesReturn123", order);
             rga.AddProduct(order.Products.First());
 
-            // Bug Fix
+            // Bug Fix 1 : Returns were not being updated in the ReturnRepository
             // Updates the return repository
             customer.CreateReturn(rga);
 
