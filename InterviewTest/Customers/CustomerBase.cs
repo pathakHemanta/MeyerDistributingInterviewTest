@@ -20,8 +20,8 @@ namespace InterviewTest.Customers
         
         public void CreateOrder(IOrder order)
         {
-            // Bug Fix 2: Orders from a previous customers existed in the OrderRepository
-            // Checks the repsository for every customer and clears it before creating any order
+            // Bug Fix 2: Orders from previous customers existed in the OrderRepository
+            // Checks the repository for every customer and clears it before creating any order
             if (_orderRepository.Get().ToArray().Length != 0)
             {
                 foreach(var item in _orderRepository.Get())
