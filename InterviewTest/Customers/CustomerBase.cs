@@ -22,7 +22,7 @@ namespace InterviewTest.Customers
         {
             // Bug Fix 2: Orders from previous customers existed in the OrderRepository
             // Checks the repository for every customer and clears it before creating any order
-            if (_orderRepository.Get().ToArray().Length != 0)
+            if (_orderRepository.Get().Count != 0)
             {
                 foreach(var item in _orderRepository.Get())
                 {
