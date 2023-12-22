@@ -21,6 +21,8 @@ namespace InterviewTest.Orders
             try
             {
                 connection.Open();
+
+                // insert each product in order as a row in the database table
                 foreach (var product in newOrder.Products)
                 {
                     var query = "insert into orders (orderNumber, customerName, productNumber, orderDate) values (@orderNumber, @customerName, @productNumber, @orderDate)";
@@ -35,7 +37,7 @@ namespace InterviewTest.Orders
                     command.Parameters.AddWithValue("@orderDate", orderDate);
                     command.Parameters.AddWithValue("@productNumber", productNumber);
 
-                    int rowsAffected = command.ExecuteNonQuery();
+                    //int rowsAffected = command.ExecuteNonQuery();
 
                     //Console.WriteLine($"Rows Affected: {rowsAffected}");
                 }
@@ -43,7 +45,7 @@ namespace InterviewTest.Orders
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {ex.Message}\n");
             }
             orders.Add(newOrder);
         }
@@ -54,30 +56,31 @@ namespace InterviewTest.Orders
             {
                 connection.Open();
 
+                // removes a return from the database table with the given order number
                 var query = "delete from orders where orderNumber = @orderNumber";
                 string orderNumber = removedOrder.OrderNumber;
                 var command = new MySqlCommand(query, connection);
 
                 command.Parameters.AddWithValue("@orderNumber", orderNumber);
 
-                int rowsAffected = command.ExecuteNonQuery();
+                //int rowsAffected = command.ExecuteNonQuery();
 
                 connection.Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+
             }
             orders = orders.Where(o => !string.Equals(removedOrder.OrderNumber, o.OrderNumber)).ToList();
         }
 
         public List<IOrder> Get()
         {
-            List<IOrder> databaseOrders = new();
             try
             {
                 connection.Open();
 
+                // writes all the orders in the database table to the console
                 var query = "select * from orders";
                 var command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -91,17 +94,17 @@ namespace InterviewTest.Orders
                         string fieldName = reader.GetName(i);
                         object fieldValue = reader.GetValue(i);
 
-                        Console.WriteLine($"{fieldName}: {fieldValue}");
+                        //Console.WriteLine($"{fieldName}: {fieldValue}");
                     }
 
-                    Console.WriteLine();
+                    //Console.WriteLine();
                 }
 
                 connection.Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+
             }
             return orders;
         }

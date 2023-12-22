@@ -10,8 +10,14 @@ namespace InterviewTest
 {
     public class Program
     {
-        static string connectionString = "Server=localhost;User ID=root;Password=Kaisenjujutsu@101010;Database=interviewtest;";
+
+        // Update this connection string to configure your database
+        static string connectionString = "Server=;User ID=root;Password=;Database=;";
+
+        // Creates a connection to the database
         static MySqlConnection connection = new MySqlConnection(connectionString);
+
+        //Pass the connection to respective repository class
         private static readonly OrderRepository orderRepo = new OrderRepository(connection);
         private static readonly ReturnRepository returnRepo = new ReturnRepository(connection);
 
@@ -46,8 +52,6 @@ namespace InterviewTest
             ProcessTruckAccessoriesExample();
 
             ProcessCarDealershipExample();
-
-            //ConnectionTest.Connection();
 
             Console.ReadKey();
         }

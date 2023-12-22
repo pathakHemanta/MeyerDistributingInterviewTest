@@ -1,3 +1,5 @@
+-- Table configuration for orders and returns
+-- Run this script in you database
 create table
     orders (
         orderId int auto_increment not null,
