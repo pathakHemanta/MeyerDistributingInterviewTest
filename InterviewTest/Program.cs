@@ -4,6 +4,7 @@ using InterviewTest.Customers;
 using InterviewTest.Orders;
 using InterviewTest.Products;
 using InterviewTest.Returns;
+using MySqlConnector;
 
 namespace InterviewTest
 {
@@ -44,6 +45,8 @@ namespace InterviewTest
 
             ProcessCarDealershipExample();
 
+            ConnectionTest.Connection();
+
             Console.ReadKey();
         }
 
@@ -54,6 +57,7 @@ namespace InterviewTest
             IOrder order = new Order("TruckAccessoriesOrder123", customer);
             order.AddProduct(new HitchAdapter());
             order.AddProduct(new BedLiner());
+            Console.WriteLine(order.Products.ToString());
             customer.CreateOrder(order);
 
             IReturn rga = new Return("TruckAccessoriesReturn123", order);
