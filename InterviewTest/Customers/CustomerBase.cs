@@ -20,18 +20,17 @@ namespace InterviewTest.Customers
         
         public void CreateOrder(IOrder order)
         {
-            // Bug Fix 2: Orders from previous customers existed in the OrderRepository
-            // Checks the repository for every customer and clears it before creating any order
-            if (_orderRepository.Get().Count != 0)
-            {
-                foreach(var item in _orderRepository.Get())
-                {
-                    _orderRepository.Remove(item);
-                }
-            }
-
+            // Calls the method to set the date and time of order
+            SetOrderDate(order);
             _orderRepository.Add(order);
             
+        }
+
+        // Sets the local time and date when an order is created
+        public void SetOrderDate(IOrder order)
+        {
+            DateTime localDate = DateTime.Now;
+            order.OrderDate = localDate.ToString();
         }
 
         public List<IOrder> GetOrders()
@@ -53,12 +52,17 @@ namespace InterviewTest.Customers
         {
             float totalSales = 0;
 
-           foreach (var  orders in GetOrders())
+           foreach (var orders in GetOrders())
             {
-                foreach(var order in orders.Products)
+                // Bug 2: Customers were not being checked while calculating total
+                // Checks this customer with customers in the orders repository 
+                if (orders.Customer.GetName() == GetName())
                 {
-                    //Console.WriteLine($"{order.Product.GetProductNumber()} : {order.Product.GetSellingPrice()}");
-                   totalSales += order.Product.GetSellingPrice();
+                    foreach (var order in orders.Products)
+                    {
+                        //Console.WriteLine($"{order.Product.GetProductNumber()} : {order.Product.GetSellingPrice()}");
+                        totalSales += order.Product.GetSellingPrice();
+                    }
                 }
             }
            
@@ -74,9 +78,12 @@ namespace InterviewTest.Customers
 
             foreach (var returns in GetReturns())
             {
-                foreach(var eachReturn in returns.ReturnedProducts)
+                if (returns.OriginalOrder.Customer.GetName() == GetName())
                 {
-                    totalReturns = eachReturn.OrderProduct.Product.GetSellingPrice();
+                    foreach (var eachReturn in returns.ReturnedProducts)
+                    {
+                        totalReturns += eachReturn.OrderProduct.Product.GetSellingPrice();
+                    }
                 }
             }
             
@@ -86,7 +93,7 @@ namespace InterviewTest.Customers
 
         public float GetTotalProfit()
         {
-            float totalProfit = 0;
+            float totalProfit;
 
             totalProfit = GetTotalSales() - GetTotalReturns();
 

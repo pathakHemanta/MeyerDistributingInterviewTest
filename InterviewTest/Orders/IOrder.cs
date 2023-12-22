@@ -7,6 +7,8 @@ namespace InterviewTest.Orders
     {
         ICustomer Customer { get; }
         string OrderNumber { get; }
+
+        string OrderDate { get; set; }
         List<OrderedProduct> Products { get; }
 
         void AddProduct(Products.IProduct product);

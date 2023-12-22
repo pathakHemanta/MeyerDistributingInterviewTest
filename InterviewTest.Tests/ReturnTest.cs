@@ -30,7 +30,6 @@ namespace InterviewTest.Tests
             IReturn returns = new Return(returnNumber,  originalOrder);
 
             Assert.AreEqual("MyOrderReturn123", returns.ReturnNumber);
-
         }
 
         [TestMethod]
@@ -43,10 +42,10 @@ namespace InterviewTest.Tests
             
             string returnNumber = "MyOrderReturn123";
             IReturn returns = new Return(returnNumber, originalOrder);
-
             returns.AddProduct(originalOrder.Products[1]);
 
             Assert.AreEqual(returns.ReturnedProducts.Count, 1);
+            Assert.AreEqual(returns.ReturnedProducts[0].OrderProduct.Product.GetProductNumber(), product2.GetProductNumber());
         }
 
         [TestMethod]
@@ -65,7 +64,7 @@ namespace InterviewTest.Tests
             customer.CreateReturn(returns);
 
             Assert.AreEqual(customer.GetReturns().Count, 1);
-
+            Assert.AreEqual(customer.GetReturns()[0].ReturnedProducts[0].OrderProduct.Product.GetProductNumber, product1.GetProductNumber);
         }
     }
 }

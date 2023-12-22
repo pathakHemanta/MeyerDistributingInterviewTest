@@ -13,6 +13,8 @@ namespace InterviewTest.Orders
             Products = new List<OrderedProduct>();
         }
 
+        // Records when an item was purchased
+        public string OrderDate { get; set; }
         public string OrderNumber { get; }
         public ICustomer Customer { get; }
         public List<OrderedProduct> Products { get; }
