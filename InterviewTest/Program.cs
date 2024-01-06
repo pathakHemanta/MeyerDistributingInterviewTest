@@ -5,6 +5,7 @@ using InterviewTest.Orders;
 using InterviewTest.Products;
 using InterviewTest.Returns;
 using MySqlConnector;
+using Microsoft.Extensions.Configuration;
 
 namespace InterviewTest
 {
@@ -41,11 +42,12 @@ namespace InterviewTest
             // 1: Create unit tests for the ordering and return process.
             // 2: Create a database and refactor all repositories to save/update/pull from it.
 
+            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
+            string connectionString = configuration["ConnectionStrings:Default"];
+            Console.WriteLine(connectionString);
+
             ProcessTruckAccessoriesExample();
-
             ProcessCarDealershipExample();
-
-            ConnectionTest.Connection();
 
             Console.ReadKey();
         }
