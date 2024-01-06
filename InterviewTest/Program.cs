@@ -11,8 +11,16 @@ namespace InterviewTest
 {
     public class Program
     {
-        private static readonly OrderRepository orderRepo = new OrderRepository();
-        private static readonly ReturnRepository returnRepo = new ReturnRepository();
+
+        // Update this connection string to configure your database
+        static string connectionString = "Server=;User ID=root;Password=;Database=;";
+
+        // Creates a connection to the database
+        static MySqlConnection connection = new MySqlConnection(connectionString);
+
+        //Pass the connection to respective repository class
+        private static readonly OrderRepository orderRepo = new OrderRepository(connection);
+        private static readonly ReturnRepository returnRepo = new ReturnRepository(connection);
 
         static void Main(string[] args)
         {
@@ -34,7 +42,7 @@ namespace InterviewTest
             // ~~ Run the console app after implementing the Code Changes section above! ~~
             // 1: Meyer Truck Equipment's returns are not being processed.
             // 2: Ruxer Ford Lincoln, Inc.'s totals are incorrect.
-            
+
 
             // ------------------------
             // Bonus
@@ -59,7 +67,6 @@ namespace InterviewTest
             IOrder order = new Order("TruckAccessoriesOrder123", customer);
             order.AddProduct(new HitchAdapter());
             order.AddProduct(new BedLiner());
-            Console.WriteLine(order.Products.ToString());
             customer.CreateOrder(order);
 
             IReturn rga = new Return("TruckAccessoriesReturn123", order);
@@ -73,7 +80,7 @@ namespace InterviewTest
         }
 
         private static void ProcessCarDealershipExample()
-        { 
+        {
             var customer = GetCarDealershipCustomer();
 
             IOrder order = new Order("CarDealerShipOrder123", customer);

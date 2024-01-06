@@ -3,6 +3,7 @@ using InterviewTest.Orders;
 using InterviewTest.Returns;
 using InterviewTest.Customers;
 using InterviewTest.Products;
+using MySqlConnector;
 
 namespace InterviewTest.Tests
 {
@@ -17,8 +18,8 @@ namespace InterviewTest.Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            _orderRepository = new OrderRepository();
-            _returnRepository = new ReturnRepository();
+            _orderRepository = new OrderRepository(new MySqlConnection());
+            _returnRepository = new ReturnRepository(new MySqlConnection());
             customer = new CarDealershipCustomer(_orderRepository, _returnRepository);
         }
 

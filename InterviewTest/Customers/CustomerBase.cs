@@ -17,13 +17,13 @@ namespace InterviewTest.Customers
         }
 
         public abstract string GetName();
-        
+
         public void CreateOrder(IOrder order)
         {
             // Calls the method to set the date and time of order
             SetOrderDate(order);
             _orderRepository.Add(order);
-            
+
         }
 
         // Sets the local time and date when an order is created
@@ -52,7 +52,9 @@ namespace InterviewTest.Customers
         {
             float totalSales = 0;
 
-           foreach (var orders in GetOrders())
+            // Gets products from each order placed by a customer and 
+            // adds their price to the total return amount
+            foreach (var orders in GetOrders())
             {
                 // Bug 2: Customers were not being checked while calculating total
                 // Checks this customer with customers in the orders repository 
@@ -60,22 +62,20 @@ namespace InterviewTest.Customers
                 {
                     foreach (var order in orders.Products)
                     {
-                        //Console.WriteLine($"{order.Product.GetProductNumber()} : {order.Product.GetSellingPrice()}");
                         totalSales += order.Product.GetSellingPrice();
                     }
                 }
             }
-           
-           //Console.WriteLine($"totalSales: {totalSales}");
 
-           return totalSales;
-           // throw new NotImplementedException();
+            return totalSales;
         }
 
         public float GetTotalReturns()
         {
             float totalReturns = 0;
 
+            // Gets products from each return placed on an order by a customer
+            // and adds their price to the total return amount 
             foreach (var returns in GetReturns())
             {
                 if (returns.OriginalOrder.Customer.GetName() == GetName())
@@ -86,9 +86,8 @@ namespace InterviewTest.Customers
                     }
                 }
             }
-            
+
             return totalReturns;
-           // throw new NotImplementedException();
         }
 
         public float GetTotalProfit()
@@ -98,7 +97,6 @@ namespace InterviewTest.Customers
             totalProfit = GetTotalSales() - GetTotalReturns();
 
             return totalProfit;
-            //throw new NotImplementedException();
         }
     }
 }
